@@ -1,0 +1,275 @@
+/* ==============================================
+ * VARIABLES & ROOT STYLES
+ * ============================================== */
+ :root {
+    --pln-primary: #035B71;
+    --pln-secondary: #00A2B9;
+    --pln-accent: #FFC107;
+    --pln-gradient: linear-gradient(270deg, #035B71, #00A2B9);
+    --pln-gradient-horizontal: linear-gradient(90deg, #00A2B9, #035B71);
+}
+
+/* ==============================================
+ * BASE STYLES
+ * ============================================== */
+html, body {
+    height: 100vh;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fa;
+}
+
+/* ==============================================
+ * NAVBAR STYLES
+ * ============================================== */
+.navbar-custom {
+    background: var(--pln-gradient);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.navbar-custom .navbar-brand {
+    color: #ffffff;
+}
+
+.navbar-custom .navbar-brand i {
+    color: var(--pln-accent);
+}
+
+.navbar-custom .nav-link,
+.navbar-custom .dropdown-toggle {
+    color: #ffffff;
+}
+
+.navbar-custom .profile-pic {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+/* ==============================================
+ * LAYOUT WRAPPER
+ * ============================================== */
+.body-wrapper {
+    display: flex;
+    flex-grow: 1;
+    height: calc(100vh - 60px);
+}
+
+/* ==============================================
+ * SIDEBAR STYLES
+ * ============================================== */
+.sidebar {
+    width: 80px;
+    background: #ffffff;
+    height: 100%;
+    border-right: 1px solid #dee2e6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.sidebar .sidebar-brand {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.sidebar .nav-link {
+    color: #6c757d;
+    font-size: 1.5rem;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.sidebar .nav-link .link-text {
+    display: none;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #e9ecef;
+    color: #212529;
+}
+
+.sidebar .nav-link.active {
+    background-color: #e0f2ff;
+    color: #007bff;
+    border-left: none;
+}
+
+/* ==============================================
+ * MAIN CONTENT STYLES
+ * ============================================== */
+.main-content {
+    flex-grow: 1;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.page-content-card {
+    background: #ffffff;
+    margin: 1.5rem;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+}
+
+/* ==============================================
+ * COMPONENT STYLES
+ * ============================================== */
+
+/* Button Gradient */
+.btn-gradient-pln {
+    background: var(--pln-gradient-horizontal);
+    color: #fff;
+    border: none;
+    transition: 0.3s;
+}
+
+.btn-gradient-pln:hover {
+    opacity: 0.9;
+    color: #fff;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumb-item a {
+    color: #6c757d;
+    text-decoration: none;
+}
+
+.breadcrumb-item.active {
+    color: #000;
+}
+
+/* Table Styles */
+.table th {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    color: #6c757d;
+    border-top: none;
+    font-weight: 600;
+}
+
+/* Card Styles */
+.card {
+    border: 1px solid #e3e6f0;
+}
+
+.card-header {
+    border-bottom: 1px solid #e3e6f0;
+    background: #ffffff;
+}
+
+/* Modal Styles */
+.modal-content {
+    border-radius: 12px;
+    border: none;
+}
+
+.modal-header {
+    border-bottom: 1px solid #e9ecef;
+    background: #f8f9fa;
+}
+
+.modal-footer {
+    border-top: 1px solid #e9ecef;
+    background: #f8f9fa;
+}
+
+/* ==============================================
+ * UTILITY STYLES
+ * ============================================== */
+
+/* Icon Date */
+.icon-date {
+    width: 36px;
+    height: 36px;
+    background: #f8f9fa;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Time Chip*/
+.time-chip {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(0, 162, 185, 0.08);
+    color: #035b71;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: 0.2s;
+}
+.time-chip:hover {
+    background: rgba(0, 162, 185, 0.15);
+}
+
+/* Text Gradient */
+.text-gradient {
+    background: var(--pln-gradient-horizontal);
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+}
+
+/* Consumption Badges */
+.consumption-badge {
+    font-size: 0.7em;
+    padding: 0.25em 0.5em;
+}
+
+.bg-info-subtle {
+    background-color: rgba(13, 202, 240, 0.1) !important;
+}
+
+.bg-success-subtle {
+    background-color: rgba(25, 135, 84, 0.1) !important;
+}
+
+.bg-warning-subtle {
+    background-color: rgba(255, 193, 7, 0.1) !important;
+}
+
+.border-info-subtle {
+    border-color: rgba(13, 202, 240, 0.25) !important;
+}
+
+.border-success-subtle {
+    border-color: rgba(25, 135, 84, 0.25) !important;
+}
+
+.border-warning-subtle {
+    border-color: rgba(255, 193, 7, 0.25) !important;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
