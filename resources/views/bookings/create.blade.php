@@ -156,54 +156,25 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedOption = this.options[this.selectedIndex];
         const capacity = selectedOption.getAttribute('data-capacity') || 0;
         kapasitasInput.value = capacity;
-        
-        if (capacity) {
-            jumlahPesertaInput.max = capacity;
-        }
-        
-        // Hitung ulang konsumsi
+        if (capacity) jumlahPesertaInput.max = capacity;
         calculateConsumption();
     });
 
-    // Validasi waktu selesai harus setelah waktu mulai
-    waktuMulaiSelect.addEventListener('change', function() {
-        const startTime = this.value;
-        const endOptions = waktuSelesaiSelect.options;
-        
-        // Reset semua opsi
-        for (let i = 0; i < endOptions.length; i++) {
-            endOptions[i].style.display = '';
-        }
-        
-        // Sembunyikan opsi yang tidak valid
-        if (startTime) {
-            for (let i = 0; i < endOptions.length; i++) {
-                if (endOptions[i].value && endOptions[i].value <= startTime) {
-                    endOptions[i].style.display = 'none';
-                }
-            }
-            
-            // Reset nilai jika tidak valid
-            if (waktuSelesaiSelect.value && waktuSelesaiSelect.value <= startTime) {
-                waktuSelesaiSelect.value = '';
-            }
-        }
-        
-        calculateConsumption();
-    });
-
+    waktuMulaiSelect.addEventListener('change', calculateConsumption);
     waktuSelesaiSelect.addEventListener('change', calculateConsumption);
+    jumlahPesertaInput.addEventListener('input', calculateConsumption);
 
-    // Hitung konsumsi otomatis berdasarkan waktu
     function calculateConsumption() {
         const startTime = waktuMulaiSelect.value;
         const endTime = waktuSelesaiSelect.value;
         const peserta = parseInt(jumlahPesertaInput.value) || 0;
 
+        // Jika waktu belum lengkap, hentikan
         if (!startTime || !endTime) return;
 
         const start = new Date(`2000-01-01T${startTime}`);
         const end = new Date(`2000-01-01T${endTime}`);
+
         const snackTime = new Date(`2000-01-01T11:00:00`);
         const lunchStart = new Date(`2000-01-01T11:00:00`);
         const lunchEnd = new Date(`2000-01-01T14:00:00`);
@@ -213,61 +184,33 @@ document.addEventListener('DOMContentLoaded', function() {
         let makanSiang = false;
         let snackSore = false;
 
-        // Rules konsumsi sesuai ketentuan
-        // Meeting mulai sebelum jam 11:00 - Snack Siang
-        if (start < snackTime) {
-            snackSiang = true;
-        }
-        
-        // Meeting antara jam 11:00-14:00 - Makan Siang
-        if (start <= lunchEnd && end >= lunchStart) {
-            makanSiang = true;
-        }
-        
-        // Meeting di atas jam 14:00 - Snack Sore
-        if (end > snackAfternoon) {
-            snackSore = true;
-        }
+        // Rule konsumsi berdasar waktu rapat
+        if (start < snackTime) snackSiang = true;
+        if (start <= lunchEnd && end >= lunchStart) makanSiang = true;
+        if (end > snackAfternoon) snackSore = true;
 
-        // Update checkbox dan hidden fields
+        // Update UI dan field tersembunyi
         snackSiangCheckbox.checked = snackSiang;
         makanSiangCheckbox.checked = makanSiang;
         snackSoreCheckbox.checked = snackSore;
-        
+
         snackSiangHidden.value = snackSiang ? '1' : '0';
         makanSiangHidden.value = makanSiang ? '1' : '0';
         snackSoreHidden.value = snackSore ? '1' : '0';
 
-        // Hitung nominal
+        // Nominal hanya dikalikan jika peserta sudah diisi
         const snackPrice = 20000;
         const lunchPrice = 30000;
         let totalPerPerson = 0;
-
         if (snackSiang) totalPerPerson += snackPrice;
         if (makanSiang) totalPerPerson += lunchPrice;
         if (snackSore) totalPerPerson += snackPrice;
 
-        const totalNominal = totalPerPerson * peserta;
-        nominalKonsumsiInput.value = `${totalNominal.toLocaleString('id-ID')}`;
+        const totalNominal = peserta > 0 ? totalPerPerson * peserta : 0;
+        nominalKonsumsiInput.value = totalNominal.toLocaleString('id-ID');
     }
 
-    // Event listeners untuk perhitungan real-time
-    jumlahPesertaInput.addEventListener('input', calculateConsumption);
-
-    // Inisialisasi awal
-    const selectedRoom = meetingRoomSelect.options[meetingRoomSelect.selectedIndex];
-    if (selectedRoom && selectedRoom.value) {
-        const capacity = selectedRoom.getAttribute('data-capacity') || 0;
-        kapasitasInput.value = capacity;
-        jumlahPesertaInput.max = capacity;
-    }
-
-    // Validasi waktu awal
-    if (waktuMulaiSelect.value) {
-        waktuMulaiSelect.dispatchEvent(new Event('change'));
-    }
-
-    // Hitung konsumsi pertama kali
+    // Jalankan sekali saat halaman dimuat
     calculateConsumption();
 });
 </script>
